@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Little Explorers - Kids Learning World</title>
+  <!-- AngularJS Core Library (from PDF Step 1) -->
+  <script src="https://code.angularjs.org/1.6.9/angular.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #F8FAFC;
+      color: #334155;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #1E3A8A;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      border-bottom: 4px solid #F59E0B;
+    }
+    nav {
+      background-color: #0F172A;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+    }
+    nav li a {
+      display: block;
+      color: #F1F5F9;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 14px 22px;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+    }
+    nav li a:hover {
+      background-color: #2563EB;
+      border-radius: 6px;
+    }
+    .hero {
+      background-color: #EFF6FF;
+      text-align: center;
+      padding: 35px 20px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .hero h2 {
+      font-size: 26px;
+      color: #1E40AF;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 25px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .sidebar {
+      flex: 1;
+      background-color: #FFFFFF;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .sidebar h3 {
+      color: #1E3A8A;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #E2E8F0;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar li {
+      padding: 10px 0;
+      border-bottom: 1px solid #F1F5F9;
+      font-weight: 500;
+      font-size: 15px;
+      color: #475569;
+    }
+    .content {
+      flex: 3;
+    }
+    .content h2 {
+      color: #0F172A;
+      margin-bottom: 10px;
+    }
+    .cards {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .card {
+      flex: 1;
+      background-color: #FFFFFF;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .card h3 {
+      color: #1E293B;
+      margin: 12px 0 6px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #64748B;
+    }
+    .card button, .widget-btn {
+      margin-top: 12px;
+      padding: 10px 20px;
+      background-color: #2563EB;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .card button:hover, .widget-btn:hover {
+      background-color: #1D4ED8;
+    }
+    /* AngularJS Interactive Section Styles */
+    .interactive-section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 25px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .interactive-grid {
+      display: flex;
+      gap: 20px;
+      margin-top: 15px;
+    }
+    .widget-box {
+      flex: 1;
+      background-color: #F8FAFC;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+    }
+    .widget-box h4 {
+      color: #1E3A8A;
+      margin-bottom: 10px;
+    }
+    .widget-box input, .widget-box select, .widget-box textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+    }
+    .delete-btn {
+      color: #EF4444;
+      font-weight: bold;
+      text-decoration: none;
+      float: right;
+      cursor: pointer;
+    }
+    footer {
+      background-color: #0F172A;
+      color: #94A3B8;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+    @media (max-width: 992px) {
+      .container { flex-direction: column; }
+      .cards, .interactive-grid { flex-wrap: wrap; }
+      .card, .widget-box { flex: 1 1 45%; }
+    }
+    @media (max-width: 768px) {
+      nav ul { flex-direction: column; text-align: center; }
+      .cards, .interactive-grid { flex-direction: column; }
+      .card, .widget-box { width: 100%; }
+      .card button { width: 100%; }
+    }
+  </style>
+</head>
+
+<!-- Initializing AngularJS App and Controller (from PDF Sample 1) -->
+<body ng-app="kidsApp" ng-controller="KidsController">
+
+  <header>
+    <h1>Little Explorers Academy</h1>
+    <p>Interactive & Structured Learning for Kids</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Curriculum</a></li>
+      <li><a href="#">Art & Crafts</a></li>
+      <li><a href="#">Interactive Games</a></li>
+    </ul>
+  </nav>
+
+  <!-- Controller Scope Variable Binding (Hello World concept) -->
+  <section class="hero">
+    <h2>{{ welcomeMessage }} 🌟</h2>
+    <p>Explore high-quality learning paths designed to build essential skills.</p>
+  </section>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h3>Quick Subjects</h3>
+      <ul>
+        <!-- Dynamic rendering using ng-repeat (from PDF Sample 1 & 3) -->
+        <li ng-repeat="subject in subjects">{{ subject }}</li>
+      </ul>
+    </aside>
+
+    <main class="content">
+      <h2>Featured Activities</h2>
+      
+      <!-- Rendering activity cards dynamically using ng-repeat -->
+      <div class="cards">
+        <div class="card" ng-repeat="act in activities">
+          <img ng-src="{{ act.img }}" alt="{{ act.title }}">
+          <h3>{{ act.title }}</h3>
+          <p>{{ act.desc }}</p>
+          <button ng-click="selectActivity(act.title)">{{ act.btnText }}</button>
+        </div>
+      </div>
+
+      <!-- Angular Interactive Tools Section (Sample 1, 2, & 3 Concepts from PDF) -->
+      <div class="interactive-section">
+        <h2>Interactive Learning Zone</h2>
+        <div class="interactive-grid">
+          
+          <!-- Sample Tool 1: Kids Math Practice Tool (Based on PDF Calculator Sample) -->
+          <div class="widget-box">
+            <h4>🔢 Math Quiz Solver</h4>
+            <p style="font-size: 13px; color: #64748B; margin-bottom: 8px;">Enter numbers to solve:</p>
+            <input type="number" ng-model="num1" placeholder="First Number">
+            <select ng-model="operator">
+              <option value="+">+</option>
+              <option value="-">-</option>
+              <option value="*">*</option>
+              <option value="/">/</option>
+            </select>
+            <input type="number" ng-model="num2" placeholder="Second Number">
+            <p><strong>Result:</strong> {{ calculateResult() }}</p>
+          </div>
+
+          <!-- Sample Tool 2: Daily Learning Task List (Based on PDF To-Do List Sample) -->
+          <div class="widget-box">
+            <h4>📋 Daily Task Tracker</h4>
+            <input type="text" ng-model="taskTitle" placeholder="Enter new task...">
+            <button class="widget-btn" ng-click="addTask()" style="margin-top:0; width:100%;">Add Task</button>
+            <ul style="margin-top: 10px; list-style: none;">
+              <li ng-repeat="t in tasks" style="padding: 5px 0; border-bottom: 1px solid #E2E8F0;">
+                {{ t }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Sample Tool 3: Student Feedback/Comment Box (Based on PDF Comment Box Sample) -->
+          <div class="widget-box">
+            <h4>💬 Feedback Box</h4>
+            <textarea ng-model="txtcomment" placeholder="Leave a feedback..." rows="3"></textarea>
+            <button class="widget-btn" ng-click="btn_add()" style="margin-top:0; width:100%;">Post</button>
+            <ul style="margin-top: 10px; list-style: none;">
+              <li ng-repeat="comnt in comments" style="padding: 5px 0; border-bottom: 1px solid #E2E8F0;">
+                {{ comnt }}
+                <a class="delete-btn" href="" ng-click="remItem($index)">x</a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer>
+    <p>© 2026 Little Explorers Learning Hub | Web Design Laboratory</p>
+  </footer>
+
+  <!-- AngularJS Script Logic -->
+  <script>
+    // 1. Module Creation
+    var app = angular.module("kidsApp", []);
+
+    // 2. Controller Definition with $scope (from PDF Step 2 & 5)
+    app.controller("KidsController", function($scope) {
+      
+      // Dynamic Header Title
+      $scope.welcomeMessage = "Welcome Young Adventurers!";
+
+      // Sidebar Data Model
+      $scope.subjects = [
+        "🔢 Mathematics",
+        "📖 Phonics & Reading",
+        "🧪 Science Discovery",
+        "🎨 Art & Design",
+        "🎵 Music & Rhymes"
+      ];
+
+      // Cards Data Model
+      $scope.activities = [
+        {
+          img: "cartoon-kids-reading-books.webp",
+          title: "Alphabet & Reading",
+          desc: "Develop reading comprehension through guided story sessions.",
+          btnText: "Start Reading"
+        },
+        {
+          img: "math.jpg",
+          title: "Counting & Math",
+          desc: "Master basic arithmetic using interactive visual exercises.",
+          btnText: "Play Numbers"
+        },
+        {
+          img: "images.jpg",
+          title: "Creative Arts",
+          desc: "Express artistic skills with digital painting and crafts.",
+          btnText: "Start Painting"
+        }
+      ];
+
+      // Interactive Action Function
+      $scope.selectActivity = function(title) {
+        alert("Starting activity: " + title);
+      };
+
+      // -------------------------------------------------------------
+      // 1. Math Calculator Logic (Adapted from PDF Calculator Sample)
+      // -------------------------------------------------------------
+      $scope.operator = '+';
+      $scope.calculateResult = function() {
+        if ($scope.num1 === undefined || $scope.num2 === undefined) return 0;
+        if ($scope.operator === '+') return $scope.num1 + $scope.num2;
+        if ($scope.operator === '-') return $scope.num1 - $scope.num2;
+        if ($scope.operator === '*') return $scope.num1 * $scope.num2;
+        if ($scope.operator === '/') return $scope.num2 !== 0 ? ($scope.num1 / $scope.num2) : 'Cannot divide by 0';
+      };
+
+      // -------------------------------------------------------------
+      // 2. Task Tracker Logic (Adapted from PDF To-Do List Sample)
+      // -------------------------------------------------------------
+      $scope.tasks = ["Complete Math Quiz", "Read Chapter 1"];
+      $scope.addTask = function() {
+        if ($scope.taskTitle && $scope.taskTitle.trim() !== '') {
+          $scope.tasks.push($scope.taskTitle);
+          $scope.taskTitle = "";
+        }
+      };
+
+      // -------------------------------------------------------------
+      // 3. Comment Box Logic (Adapted directly from PDF Comment Box Sample)
+      // -------------------------------------------------------------
+      $scope.comments = ["Great learning portal!"];
+      $scope.btn_add = function() {
+        if ($scope.txtcomment && $scope.txtcomment.trim() !== '') {
+          $scope.comments.push($scope.txtcomment);
+          $scope.txtcomment = "";
+        }
+      };
+      $scope.remItem = function($index) {
+        $scope.comments.splice($index, 1);
+      };
+
+    });
+  </script>
+</body>
+</html>
